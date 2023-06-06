@@ -39,6 +39,7 @@ function AutomobileList() {
               <th>Year</th>
               <th>Model</th>
               <th>Manufacturer</th>
+              <th>Picture</th>
               <th>Sold</th>
 
             </tr>
@@ -52,9 +53,8 @@ function AutomobileList() {
                 <td className="fs-3">{ automobile.year }</td>
                 <td className="fs-3">{ automobile.model.name }</td>
                 <td className="fs-3">{ automobile.model.manufacturer.name }</td>
+                <td><img className="img-thumbnail" height="20px" width="200px" src={ automobile.model.picture_url }/></td>
                 <td className="fs-3">{ automobile.sold ? 'Sold' : 'Available' }</td>
-
-
                 <td>
                   <button onClick={() => handleDelete(automobile.id)} className="btn btn-danger">Delete</button>
                 </td>

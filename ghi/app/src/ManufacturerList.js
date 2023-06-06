@@ -42,7 +42,9 @@ function ManufacturerList() {
             return (
               <tr key={manufacturer.id}>
                 <td className="fs-3">{ manufacturer.name }</td>
+                <td>
                   <button onClick={() => handleDelete(manufacturer.id)} className="btn btn-danger">Delete</button>
+                </td>
               </tr>
             )
           })}
