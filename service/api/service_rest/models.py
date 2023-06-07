@@ -7,6 +7,8 @@ class Technician(models.Model):
     last_name = models.CharField(max_length=50)
     employee_id = models.PositiveSmallIntegerField()
 
+    def get_api_url(self):
+            return reverse("api_technicians", kwargs={"pk": self.id})
 
 
 class AutomobileVO(models.Model):
@@ -25,6 +27,8 @@ class Appointment(models.Model):
         related_name="technicians",
         on_delete=models.CASCADE,
     )
+    def get_api_url(self):
+        return reverse("api_appointments", kwargs={"pk": self.id})
 
 
 # class Service(models.Model):

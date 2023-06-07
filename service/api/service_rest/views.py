@@ -64,7 +64,8 @@ def api_appointments(request):
     else:
         try:
             content = json.loads(request.body)
-            id = content["technicians"]
+            employee_id = content["technician"]
+            technician = Technician.objects.get(pk=employee_id)
             appointment = Appointment.objects.create(**content)
             return JsonResponse(
                 appointment,
