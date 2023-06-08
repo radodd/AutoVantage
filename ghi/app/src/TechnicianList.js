@@ -47,7 +47,7 @@ function TechnicianList() {
                 <td className="fs-3">{ technician.first_name }</td>
                 <td className="fs-3">{ technician.last_name }</td>
                 <td>
-                  <button onClick={() => handleDelete(technician.id)} className="btn btn-danger">Delete</button>
+                  <button onClick={() => handleDelete(technician.employee_id)} className="btn btn-danger">Delete</button>
                 </td>
               </tr>
             )

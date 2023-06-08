@@ -42,7 +42,6 @@ function AppointmentList() {
 
       const response = await fetch(appointmentUrl, fetchConfig);
       if (response.ok) {
-        // Remove the canceled appointment from the list
         const updatedAppointments = appointments.filter(appointment => appointment.id !== id);
         setAppointments(updatedAppointments);
       } else {
@@ -62,7 +61,6 @@ function AppointmentList() {
 
       const response = await fetch(appointmentUrl, fetchConfig);
       if (response.ok) {
-        // Remove the canceled appointment from the list
         const updatedAppointments = appointments.filter(appointment => appointment.id !== id);
         setAppointments(updatedAppointments);
       } else {
@@ -83,17 +81,14 @@ function AppointmentList() {
     };
 
     const isVIP = async (vin) => {
-        // Perform the VIN status polling logic here
         const vinUrl = `http://localhost:8100/api/automobiles/${vin}`;
         const response = await fetch(vinUrl);
         if (response.ok) {
           const data = await response.json();
-          // Process the VIN status data
           console.log(data);
           const checkVIP =data.sold;
           return checkVIP
         } else {
-          // Handle error case
           return 'Error';
         }
       };
@@ -117,7 +112,7 @@ function AppointmentList() {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ isVIP(appointment.vin) ? 'Not VIP' : 'Is VIP' }</td>
+                <td className="fs-3">{ isVIP(appointment.vin) ? 'NOT VIP' : 'Is VIP' }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
                 <td className="fs-3">{ appointment.technician.first_name }</td>
@@ -125,9 +120,6 @@ function AppointmentList() {
                 <td>
                   <button onClick={() => handleCancel(appointment.id)} className="btn btn-danger">Cancel</button>
                   <button onClick={() => handleFinish(appointment.id)} className="btn btn-success">Finish</button>
-
-
-
                 </td>
               </tr>
             )

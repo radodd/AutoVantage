@@ -15,8 +15,6 @@ function ServiceHistorytList() {
     }
     useEffect(() => {
       fetchData();
-
-
     }, []);
 
 
@@ -31,20 +29,18 @@ function ServiceHistorytList() {
         return formattedDate;
     };
 
-    // const vinPoller = async (vin) => {
-    //     // Perform the VIN status polling logic here
-    //     const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
-    //     const response = await fetch(vinStatusUrl);
-    //     if (response.ok) {
-    //       const data = await response.json();
-    //       // Process the VIN status data
-    //       console.log(data);
-    //       let isVIP =data.sold;
-    //     } else {
-    //       // Handle error case
-    //       return 'Error';
-    //     }
-    //   };
+    const isVIP = async (vin) => {
+        const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
+        const response = await fetch(vinStatusUrl);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          const checkVIP =data.sold;
+          return checkVIP
+        } else {
+          return 'Error';
+        }
+      };
 
     return (
       <>
@@ -65,7 +61,7 @@ function ServiceHistorytList() {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ (appointment.vin) }</td>
+                <td className="fs-3">{ isVIP(appointment.vin) ? 'Not VIP' : 'Is VIP' }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
                 <td className="fs-3">{ appointment.technician.first_name }</td>

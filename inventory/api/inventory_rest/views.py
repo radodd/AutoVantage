@@ -154,7 +154,6 @@ def api_manufacturer(request, pk):
             response.status_code = 404
             return response
 
-
 @require_http_methods(["GET", "POST"])
 def api_vehicle_models(request):
     if request.method == "GET":
