@@ -20,7 +20,7 @@ def get_vin():
         print()
         AutomobileVO.objects.update_or_create(
             vin=automobile["vin"],
-            defaults={"sold": automobile["sold"], "vin": automobile["vin"]},
+            defaults={"sold": automobile["sold"]},
         )
 def poll(repeat=True):
     while True:

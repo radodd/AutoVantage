@@ -56,7 +56,7 @@ function AutomobileList() {
                 <td><img className="img-thumbnail" height="20px" width="200px" src={ automobile.model.picture_url }/></td>
                 <td className="fs-3">{ automobile.sold ? 'Sold' : 'Available' }</td>
                 <td>
-                  <button onClick={() => handleDelete(automobile.id)} className="btn btn-danger">Delete</button>
+                  <button onClick={() => handleDelete(automobile.vin)} className="btn btn-danger">Delete</button>
                 </td>
               </tr>
             )

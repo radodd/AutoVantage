@@ -64,7 +64,9 @@ def api_appointments(request):
     else:
         try:
             content = json.loads(request.body)
-            id = content["technicians"]
+            technician_id = content["technician"]
+            technician = Technician.objects.get(pk=technician_id)
+            content["technician"] = technician
             appointment = Appointment.objects.create(**content)
             return JsonResponse(
                 appointment,
@@ -76,4 +78,34 @@ def api_appointments(request):
                 {"message": "Could not create appointment"}
             )
             response.status_code = 400
+            return response
+
+@require_http_methods(["DELETE", "PUT"])
+def api_appointment_detail(request, id):
+    if request.method == "DELETE":
+        try:
+            count, _ = Appointment.objects.filter(id=id).delete()
+            return JsonResponse(
+                {"delete": count > 0},
+            )
+        except Appointment.DoesNotExist:
+            return JsonResponse({"message": "Appointment does not exist"})
+    else: #PUT
+        try:
+            content = json.loads(request.body)
+            appointment = Appointment.objects.get(id=id)
+
+            props = ["status"]
+            for prop in props:
+                if prop in content:
+                    setattr(appointment, prop, content[prop])
+            appointment.save()
+            return JsonResponse(
+                appointment,
+                encoder=AppointmentEncoder,
+                safe=False,
+            )
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Appointment does not exist"})
+            response.status_code = 404
             return response
