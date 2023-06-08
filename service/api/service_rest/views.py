@@ -90,10 +90,22 @@ def api_appointment_detail(request, id):
             )
         except Appointment.DoesNotExist:
             return JsonResponse({"message": "Appointment does not exist"})
+    else: #PUT
+        try:
+            content = json.loads(request.body)
+            appointment = Appointment.objects.get(id=id)
 
-# if request.method == "DELETE":
-#             try:
-#                 count, _ = Technician.objects.filter(employee_id=employee_id).delete()
-#                 return JsonResponse({"delete": count > 0})
-#             except Technician.DoesNotExist:
-#                 return JsonResponse({"message": "Technician does not exist"})
+            props = ["status"]
+            for prop in props:
+                if prop in content:
+                    setattr(appointment, prop, content[prop])
+            appointment.save()
+            return JsonResponse(
+                appointment,
+                encoder=AppointmentEncoder,
+                safe=False,
+            )
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Appointment does not exist"})
+            response.status_code = 404
+            return response
