@@ -29,7 +29,7 @@ function SalespeopleList() {
     // }
     return (
         <>
-        <p>List of Salespeople</p>
+        <h1>List of Salespeople</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -41,7 +41,6 @@ function SalespeopleList() {
                 <tbody >
                     {salespeople.map((salesperson) => {
                         return (
-                            <>
                                 <tr key={salesperson.id}>
                                     <td className="fs-3">{salesperson.first_name}</td>
                                     <td className="fs-3">{salesperson.last_name}</td>
@@ -50,7 +49,6 @@ function SalespeopleList() {
                                     {/* <button onClick={() => handleDelete(salesperson.employee_id)} className="btn btn-danger">Delete</button>  */}
                                     </td>
                                 </tr>
-                            </>
                         )
                     })}
                 </tbody>
