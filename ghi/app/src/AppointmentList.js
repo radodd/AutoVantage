@@ -89,12 +89,17 @@ function AppointmentList() {
     };
 
     const isVIP = async (vin) => {
-      const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
-      const response = await fetch(vinStatusUrl);
-      if (response.ok) {
-        const data = await response.json();
-        return data.sold;
-      } else {
+      try {
+        const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
+        const response = await fetch(vinStatusUrl);
+        if (response.ok) {
+          const data = await response.json();
+          return data.sold ? 'Is VIP' : 'Not VIP';
+        } else {
+          throw new Error('Failed to fetch VIP status');
+        }
+      } catch (error) {
+        console.error(error);
         return 'Error';
       }
     };
@@ -119,7 +124,7 @@ function AppointmentList() {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ isVIP(appointment.vin) }</td>
+                <td className="fs-3">{ isVIP[appointment.vin] ? 'NOT VIP' : 'IS VIP' }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
                 <td className="fs-3">{ appointment.technician.first_name + " " + appointment.technician.last_name }</td>
