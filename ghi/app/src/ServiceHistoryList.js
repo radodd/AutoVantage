@@ -52,19 +52,6 @@ function ServiceHistorytList() {
         }
       };
 
-      useEffect(() => {
-        const fetchVIPStatus = async () => {
-          const updatedAppointments = await Promise.all(
-            appointments.map(async (appt) => {
-              const vipStatus = await isVIP(appt.vin);
-              return { ...appt, vip: vipStatus };
-            })
-          );
-          setAppointments(updatedAppointments);
-        };
-        fetchVIPStatus();
-      }, [appointments]);
-
     return (
       <>
       <h1>Service History</h1>

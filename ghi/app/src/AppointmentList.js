@@ -88,29 +88,17 @@ function AppointmentList() {
         return formattedDate;
     };
 
-    // const isVIP = async (vin) => {
-    //   const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
-    //   const response = await fetch(vinStatusUrl);
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     return data.sold;
-    //   } else {
-    //     return 'Error';
-    //   }
-    // };
+    const isVIP = async (vin) => {
+      const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
+      const response = await fetch(vinStatusUrl);
+      if (response.ok) {
+        const data = await response.json();
+        return data.sold;
+      } else {
+        return 'Error';
+      }
+    };
 
-    // useEffect(() => {
-    //   const fetchVIPStatus = async () => {
-    //     const updatedAppointments = await Promise.all(
-    //       appointments.map(async (appt) => {
-    //         const vipStatus = await isVIP(appt.vin);
-    //         return { ...appt, vip: vipStatus };
-    //       })
-    //     );
-    //     setAppointments(updatedAppointments);
-    //   };
-    //   fetchVIPStatus();
-    // }, [appointments]);
 
     return (
       <>
@@ -131,7 +119,7 @@ function AppointmentList() {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ (appointment.vin) }</td>
+                <td className="fs-3">{ isVIP(appointment.vin) }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
                 <td className="fs-3">{ appointment.technician.first_name + " " + appointment.technician.last_name }</td>

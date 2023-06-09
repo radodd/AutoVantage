@@ -20,7 +20,7 @@ docker-compose up
 ```
 - After running these commands ensure all Docker containers are fulling up and running
 - To open the project in browers navigate to: http://localhost:3000/
-![Img]()
+
 ## Design
 
 CarCar is made up of 3 microservices:
@@ -29,7 +29,7 @@ CarCar is made up of 3 microservices:
 - **Services**
 - **Sales**
 
-![Img](/images/CarCarDiagram.png)
+![Img](https://drive.google.com/file/d/1u4gELXJxVN7eMQscBcwSxFpKz5c_rynr/view?usp=sharing)
 
 ## Service microservice
 
