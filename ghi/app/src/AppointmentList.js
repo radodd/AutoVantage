@@ -4,6 +4,7 @@ function AppointmentList() {
     const [appointments, setAppointments] = useState([]);
     const [cancel, setCancel] = useState('');
     const [finish, setFinish] = useState('');
+    const [automobiles, setAutomobiles] = useState([]);
 
     const handleCancelChange = (event) => {
       const value = event.target.value;
@@ -17,11 +18,18 @@ function AppointmentList() {
 
     const fetchData = async () => {
       const url = 'http://localhost:8080/api/appointments'
+      const automobilesUrl = "http://localhost:8100/api/automobiles/"
       const response = await fetch(url);
 
       if (response.ok) {
         const data = await response.json();
         setAppointments(data.appointments);
+      }
+      const automobileResponse = await fetch(automobilesUrl)
+      if (automobileResponse.ok) {
+          const data = await automobileResponse.json()
+          const autosAvailable = data.autos.filter(auto => !auto.sold)
+          setAutomobiles(autosAvailable)
       }
     }
     useEffect(() => {
@@ -80,22 +88,19 @@ function AppointmentList() {
         return formattedDate;
     };
 
-    const isVIP = async (vin) => {
-        const vinUrl = `http://localhost:8100/api/automobiles/${vin}`;
-        const response = await fetch(vinUrl);
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          const checkVIP =data.sold;
-          return checkVIP
-        } else {
-          return 'Error';
-        }
-      };
-
+    // const isVIP = async () => {
+    //     const autosUrl = `http://localhost:8100/api/automobiles/`;
+    //     const response = await fetch(autosUrl);
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       const autoSold = data.autos.filter(auto => !auto.sold)
+    //       setAutomobile(autoSold)
+    //   };
+    // }
 
     return (
       <>
+      <h1>List of Service Appointments</h1>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -112,10 +117,10 @@ function AppointmentList() {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ isVIP(appointment.vin) ? 'NOT VIP' : 'Is VIP' }</td>
+                <td className="fs-3">{ (appointment.vin) }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
-                <td className="fs-3">{ appointment.technician.first_name }</td>
+                <td className="fs-3">{ appointment.technician.first_name + " " + appointment.technician.last_name }</td>
                 <td className="fs-3">{ appointment.reason }</td>
                 <td>
                   <button onClick={() => handleCancel(appointment.id)} className="btn btn-danger">Cancel</button>

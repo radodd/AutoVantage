@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
 function ServiceHistorytList() {
-    const [serviceHistory, setServiceHistory] = useState([]);
+    const [appointments, setAppointments] = useState([]);
+    const [appointment, setAppointment] = useState('');
 
 
     const fetchData = async () => {
@@ -10,13 +11,25 @@ function ServiceHistorytList() {
 
       if (response.ok) {
         const data = await response.json();
-        setServiceHistory(data.appointments);
+        setAppointments(data.appointments);
       }
     }
     useEffect(() => {
       fetchData();
     }, []);
 
+    const handleAppointmentChange = (event) => {
+      const appointment = event.target.value
+      let updatedAppointments
+      if (appointment === 'all') {
+        updatedAppointments = appointments
+      }
+      else {
+        updatedAppointments = appointments.filter((appointment) => appointment.vin === parseInt(appointment))
+      }
+      setAppointments(updatedAppointments)
+      setAppointment(appointment)
+    }
 
     const formatDate = (date) => {
         const newDate = new Date(date);
@@ -44,6 +57,19 @@ function ServiceHistorytList() {
 
     return (
       <>
+      <h1>Service History</h1>
+        <div className="mb-3">
+          <select onChange={handleAppointmentChange} value={appointment} required name="appointment" id="appointment" className="form-select">
+              <option value={"all"} key={"all"}>Choose a VIN</option>
+              {appointments && appointments.map(appointment => {
+                  return (
+                      <option key={appointment.id} value={appointment.id}>
+                          {appointment.vin}
+                      </option>
+                  );
+              })}
+          </select>
+                </div>
         <table className="table table-striped">
           <thead>
             <tr>
@@ -57,18 +83,16 @@ function ServiceHistorytList() {
             </tr>
           </thead>
           <tbody>
-          {serviceHistory.map((appointment) => {
+          {appointments.map((appointment) => {
             return (
               <tr key={appointment.id}>
                 <td className="fs-3">{ appointment.vin }</td>
-                <td className="fs-3">{ isVIP(appointment.vin) ? 'Not VIP' : 'Is VIP' }</td>
+                <td className="fs-3">{ isVIP(appointment.vin) ? 'Is VIP' : 'Not VIP' }</td>
                 <td className="fs-3">{ appointment.customer }</td>
                 <td className="fs-3">{ formatDate(appointment.date_time) }</td>
                 <td className="fs-3">{ appointment.technician.first_name }</td>
                 <td className="fs-3">{ appointment.reason }</td>
                 <td className="fs-3">{ appointment.status ? 'Finished' : 'Canceled' }</td>
-                {/* <td className="fs-3">{ appointment.sold ? 'Sold' : 'Available' }</td> */}
-
               </tr>
             )
           })}
