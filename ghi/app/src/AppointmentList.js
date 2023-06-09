@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 
 function AppointmentList() {
     const [appointments, setAppointments] = useState([]);
-    const [cancel, setCancel] = useState('');
-    const [finish, setFinish] = useState('');
+    // const [cancel, setCancel] = useState('');
+    // const [finish, setFinish] = useState('');
     const [automobiles, setAutomobiles] = useState([]);
 
-    const handleCancelChange = (event) => {
-      const value = event.target.value;
-        setCancel(value);
-    }
+    // const handleCancelChange = (event) => {
+    //   const value = event.target.value;
+    //     setCancel(value);
+    // }
 
-    const handleFinishChange = (event) => {
-      const value = event.target.value;
-      setFinish(value);
-    }
+    // const handleFinishChange = (event) => {
+    //   const value = event.target.value;
+    //   setFinish(value);
+    // }
 
     const fetchData = async () => {
       const url = 'http://localhost:8080/api/appointments'
@@ -88,15 +88,29 @@ function AppointmentList() {
         return formattedDate;
     };
 
-    // const isVIP = async () => {
-    //     const autosUrl = `http://localhost:8100/api/automobiles/`;
-    //     const response = await fetch(autosUrl);
-    //     if (response.ok) {
-    //       const data = await response.json();
-    //       const autoSold = data.autos.filter(auto => !auto.sold)
-    //       setAutomobile(autoSold)
+    // const isVIP = async (vin) => {
+    //   const vinStatusUrl = `http://localhost:8100/api/automobiles/${vin}`;
+    //   const response = await fetch(vinStatusUrl);
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     return data.sold;
+    //   } else {
+    //     return 'Error';
+    //   }
+    // };
+
+    // useEffect(() => {
+    //   const fetchVIPStatus = async () => {
+    //     const updatedAppointments = await Promise.all(
+    //       appointments.map(async (appt) => {
+    //         const vipStatus = await isVIP(appt.vin);
+    //         return { ...appt, vip: vipStatus };
+    //       })
+    //     );
+    //     setAppointments(updatedAppointments);
     //   };
-    // }
+    //   fetchVIPStatus();
+    // }, [appointments]);
 
     return (
       <>

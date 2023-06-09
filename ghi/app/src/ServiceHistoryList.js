@@ -19,16 +19,15 @@ function ServiceHistorytList() {
     }, []);
 
     const handleAppointmentChange = (event) => {
-      const appointment = event.target.value
-      let updatedAppointments
-      if (appointment === 'all') {
-        updatedAppointments = appointments
+      const selectedAppointmentId = event.target.value
+      let updatedAppointments;
+      if (selectedAppointmentId === 'all') {
+        updatedAppointments = appointments;
+      } else {
+        updatedAppointments = appointments.filter((appt) => appt.id === parseInt(selectedAppointmentId));
       }
-      else {
-        updatedAppointments = appointments.filter((appointment) => appointment.vin === parseInt(appointment))
-      }
-      setAppointments(updatedAppointments)
-      setAppointment(appointment)
+      setAppointments(updatedAppointments);
+      setAppointment(selectedAppointmentId);
     }
 
     const formatDate = (date) => {
@@ -47,13 +46,24 @@ function ServiceHistorytList() {
         const response = await fetch(vinStatusUrl);
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          const checkVIP =data.sold;
-          return checkVIP
+          return data.sold;
         } else {
           return 'Error';
         }
       };
+
+      useEffect(() => {
+        const fetchVIPStatus = async () => {
+          const updatedAppointments = await Promise.all(
+            appointments.map(async (appt) => {
+              const vipStatus = await isVIP(appt.vin);
+              return { ...appt, vip: vipStatus };
+            })
+          );
+          setAppointments(updatedAppointments);
+        };
+        fetchVIPStatus();
+      }, [appointments]);
 
     return (
       <>
