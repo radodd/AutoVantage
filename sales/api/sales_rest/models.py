@@ -11,6 +11,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=10)
+    address = models.CharField(max_length=200)
     
 class AutomobileVO(models.Model):
     vin = models.CharField(max_length=17, unique=True)
